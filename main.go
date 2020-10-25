@@ -1,20 +1,15 @@
 package main
 
+import (
+	"os"
+)
+
 func main() {
-	mock := New()
+	path, _ := os.Getwd()
 
-	mock.Get("/", 200, struct {
-		Number int
-		Text   string
-	}{
-		42,
-		"Hello world!",
-	})
+	mock := New(8000)
 
-	mock.Get("/get", 200, map[string]interface{}{
-		"hello": "test from a",
-		"world": 42,
-	})
+	mock.Get("/get", 200, ReadJsonFile(path+"/example.json"))
 
 	mock.Post("/post", 200, map[string]interface{}{
 		"status": "post",
