@@ -2,12 +2,15 @@ package main
 
 import (
 	"os"
+
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	path, _ := os.Getwd()
 
 	mock := New(8000)
+	mock.Use(middleware.Logger())
 
 	mock.Get("/get", 200, ReadJsonFile(path+"/example.json"))
 
