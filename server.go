@@ -34,10 +34,25 @@ func New(port int) *Server {
 	}
 }
 
+// Add default server
+func NewDefault() *Server {
+	echo := echo.New()
+
+	echo.Use(middleware.Logger())
+	echo.Use(middleware.Recover())
+
+	return &Server{
+		echo: echo,
+		port: 8000,
+	}
+}
+
+func (s *Server) Use(middleware echo.MiddlewareFunc) {
+	s.echo.Use(middleware)
+}
+
 // Start the server with logger
 func (s *Server) Start() {
-	s.echo.Use(middleware.Logger())
-	s.echo.Use(middleware.Recover())
 	s.echo.Logger.Fatal(
 		s.echo.Start(fmt.Sprintf(":%d", s.port)),
 	)
