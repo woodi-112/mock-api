@@ -11,11 +11,17 @@ import (
 )
 
 type MockAPI interface {
-	Get(string, int, interface{})
-	Post(string, int, interface{})
-	Put(string, int, interface{})
-	Patch(string, int, interface{})
-	Delete(string, int, interface{})
+	Get(string, Response)
+	Post(string, Response)
+	Put(string, Response)
+	Patch(string, Response)
+	Delete(string, Response)
+}
+
+// Response struct to make things easier
+type Response struct {
+	Code int
+	Body interface{}
 }
 
 // Server is he top level struct
@@ -59,37 +65,37 @@ func (s *Server) Start() {
 }
 
 // Get is a wrapper function that will add a new get handler to the server.
-func (s *Server) Get(path string, responseCode int, responseBody interface{}) {
+func (s *Server) Get(path string, response Response) {
 	s.echo.GET(path, func(c echo.Context) error {
-		return c.JSON(responseCode, responseBody)
+		return c.JSON(response.Code, response.Body)
 	})
 }
 
 // Post is a wrapper function that will add a new get handler to the server.
-func (s *Server) Post(path string, responseCode int, responseBody interface{}) {
+func (s *Server) Post(path string, response Response) {
 	s.echo.POST(path, func(c echo.Context) error {
-		return c.JSON(responseCode, responseBody)
+		return c.JSON(response.Code, response.Body)
 	})
 }
 
 // Put is a wrapper function that will add a new get handler to the server.
-func (s *Server) Put(path string, responseCode int, responseBody interface{}) {
+func (s *Server) Put(path string, response Response) {
 	s.echo.PUT(path, func(c echo.Context) error {
-		return c.JSON(responseCode, responseBody)
+		return c.JSON(response.Code, response.Body)
 	})
 }
 
 // Patch is a wrapper function that will add a new get handler to the server.
-func (s *Server) Patch(path string, responseCode int, responseBody interface{}) {
+func (s *Server) Patch(path string, response Response) {
 	s.echo.PATCH(path, func(c echo.Context) error {
-		return c.JSON(responseCode, responseBody)
+		return c.JSON(response.Code, response.Body)
 	})
 }
 
 // Delete is a wrapper function that will add a new get handler to the server.
-func (s *Server) Delete(path string, responseCode int, responseBody interface{}) {
+func (s *Server) Delete(path string, response Response) {
 	s.echo.DELETE(path, func(c echo.Context) error {
-		return c.JSON(responseCode, responseBody)
+		return c.JSON(response.Code, response.Body)
 	})
 }
 

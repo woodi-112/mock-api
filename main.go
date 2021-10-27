@@ -12,23 +12,47 @@ func main() {
 	mock := New(8000)
 	mock.Use(middleware.Logger())
 
-	mock.Get("/get", 200, ReadJsonFile(path+"/example.json"))
+	mock.Get("/get", Response{200, ReadJsonFile(path + "/example.json")})
 
-	mock.Post("/post", 200, map[string]interface{}{
-		"status": "post",
-	})
+	mock.Post(
+		"/post",
+		Response{
+			200,
+			map[string]interface{}{
+				"status": "post",
+			},
+		},
+	)
 
-	mock.Put("/put", 200, map[string]interface{}{
-		"status": "put",
-	})
+	mock.Put(
+		"/put",
+		Response{
+			200,
+			map[string]interface{}{
+				"status": "put",
+			},
+		},
+	)
 
-	mock.Patch("/patch", 200, map[string]interface{}{
-		"status": "patch",
-	})
+	mock.Patch(
+		"/patch",
+		Response{
+			200,
+			map[string]interface{}{
+				"status": "patch",
+			},
+		},
+	)
 
-	mock.Delete("/delete", 200, map[string]interface{}{
-		"status": "delete",
-	})
+	mock.Delete(
+		"/delete",
+		Response{
+			200,
+			map[string]interface{}{
+				"status": "post",
+			},
+		},
+	)
 
 	mock.Start()
 }
